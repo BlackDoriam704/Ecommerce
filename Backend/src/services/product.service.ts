@@ -4,9 +4,7 @@ export const createProduct = async (productData: {
   name: string;
   description: string;
   categoryId: number;
-  price: number;
-  stock: number;
-  images: string[];
+  supplierId: number;
 }) => {
   return await Product.create(productData);
 };

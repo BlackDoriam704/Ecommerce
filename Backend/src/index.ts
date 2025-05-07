@@ -1,5 +1,11 @@
 import Serve from "./serve";
 import sequelize from "./config/app";
+import dotenv from "dotenv";
+import types from "./types/types";
+
+dotenv.config();
+// Importa dotenv y carga las variables de entorno
+// desde el archivo .env
 
 const server = new Serve();
 

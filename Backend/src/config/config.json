@@ -1,0 +1,13 @@
+{
+    "development": {
+      "username": "cristian",
+      "password": "Dios2002",
+      "database": "Tienda",
+      "host": "server-001s.database.windows.net",
+      "dialect": "mssql",
+      "dialectOptions": {
+        "encrypt": true,
+        "trustServerCertificate": false
+      }
+    }
+  }

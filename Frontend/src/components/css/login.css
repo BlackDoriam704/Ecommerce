@@ -1,0 +1,96 @@
+/* login.css */
+.login-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 89vh;
+    padding: 0 5%;
+    background-color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .left-section2 {
+    padding: 0 10%;
+    flex: 1;
+    position: relative;
+    margin-top: -150px; /* ajusta el valor para subir más o menos */
+  }
+  
+  
+  .left-section2 h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    bottom: 40px; 
+  
+  }
+  
+  .left-section2 h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-top: 0.5rem;
+  }
+  
+  .register {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    
+  }
+  
+  .register a {
+    color: #6c5ce7;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  
+  .right-section {
+    flex: 1;
+    background: white;
+    padding: 9rem;
+    border-radius: 1rem;
+  
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  
+  .input {
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.6rem;
+    font-size: 1rem;
+    background-color: #f4f0ff;
+  }
+  
+  button {
+    padding: 1rem;
+    background-color: #3b30b0;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.8rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(92, 78, 252, 0.4);
+  }
+  
+  
+  .image-illustration {
+    width: 180px;
+    margin-left: 28rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  
+  .tc{
+    text-align: center;
+  }
+  .logogoogle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }

@@ -1,15 +1,39 @@
 import { Router } from 'express';
-import { register, login } from '../api/controllers/user.controller';
+import { register, login, getUserProfile } from '../api/controllers/user.controller';
 import { validateUser } from '../api/validators/uservalidator';
 import { validateProduct } from '../api/validators/productValidator';
-import { addProduct, getProducts, getProduct, updateProductById, deleteProductById } from '../api/controllers/Product.controller';
-const router = Router();
+import { addProduct,
+        getProducts,
+        getProduct,
+        updateProductById,
+        deleteProductById } from '../api/controllers/Product.controller';
+import {
+          addProductVariation,
+          getProductWithDetails,
+          getAlltVariations,
+          getAllProducts,
+          updateProductVariationById,
+          deleteProductVariationById,
+        } from '../api/controllers/product_variation.controller';
+        import {
+          createNewCart,
+          addToCart,
+          updateCartItem,
+          removeFromCart,
+          getCart,
+          clearCartItems,
+        } from '../api/controllers/cart.controller';
+import { authenticate } from '../api/middlewares/auth';
+import multer from 'multer';
 
-// Agregar validaciones al registro
+        
+const router = Router();
+router.get('/vs/:id', getProductWithDetails); // Obtener un producto con sus variaciones
 router.post('/users/register', validateUser, register);
 
 // Login no requiere validación adicional
 router.post('/users/login', login);
+router.get('/me', authenticate, getUserProfile); 
 
 
 router.post('/products', validateProduct, addProduct); // Crear producto
@@ -17,6 +41,23 @@ router.get('/products', getProducts); // Obtener todos los productos
 router.get('/products/:id', getProduct); // Obtener un producto por ID
 router.put('/products/:id', validateProduct, updateProductById); // Actualizar un producto
 router.delete('/products/:id', deleteProductById); // Eliminar un producto
+
+router.get('/AllproductsV', getAllProducts);
+
+const upload = multer({ dest: 'uploads/' });
+router.post('/products/variacion', upload.single('image'), addProductVariation);
+// router.post('/products/variacion', addProductVariation); // Crear una nueva variación de producto
+router.get('/variations', getAlltVariations); // Obtener todas las variaciones de producto
+// router.get('/products/variacion/:id', getProductVariation); // Obtener una variación de producto por ID
+router.put('/products/variacion/:id', updateProductVariationById); // Actualizar una variación de producto por ID
+router.delete('/products/variacion/:id', deleteProductVariationById); // Eliminar una variación de producto por ID
+
+router.post('/cart', createNewCart);
+router.post('/cart/add', addToCart);
+router.put('/cart/update', updateCartItem);
+router.delete('/cart/remove', removeFromCart);
+router.get('/cart/:cartId', getCart);
+router.delete('/cart/:cartId/clear', clearCartItems);
 
 export default router;
 

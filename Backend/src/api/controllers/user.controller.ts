@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { createUser, findUserByEmail, comparePassword } from '../../services/user.service';
 import { logAuditEvent } from '../../services/audit.service';
+import { User } from '../../db/model/User.model';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecret';
 
@@ -54,5 +55,27 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     res.json({ token });
   } catch (error) {
     res.status(500).json({ message: 'Error logging in', error: error instanceof Error ? error.message : 'Unknown error' });
+  }
+};
+export const getUserProfile = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const userId = req.User?.userId; // `req.user` debe ser configurado por un middleware de autenticación
+    if (!userId) {
+      res.status(401).json({ message: 'No autorizado' });
+      return;
+    }
+
+    const user = await User.findByPk(userId, {
+      attributes: ['id', 'username', 'email', 'roleId'], // Devuelve solo los campos necesarios
+    });
+
+    if (!user) {
+      res.status(404).json({ message: 'Usuario no encontrado' });
+      return;
+    }
+
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener el perfil del usuario', error: error instanceof Error ? error.message : 'Error desconocido' });
   }
 };

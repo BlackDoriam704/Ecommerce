@@ -11,8 +11,8 @@ export const addProduct = async (req: Request, res: Response): Promise<void> => 
   }
 
   try {
-    const { name, description, categoryId, price, stock, images } = req.body;
-    const product = await createProduct({ name, description, categoryId, price, stock, images });
+    const { name, description, categoryId, supplierId} = req.body;
+    const product = await createProduct({ name, description, categoryId, supplierId});
     res.status(201).json({ message: 'Producto creado exitosamente', product });
   } catch (error) {
     if (error instanceof Error) {
@@ -71,8 +71,8 @@ export const getProducts = async (_req: Request, res: Response): Promise<void> =
   
     try {
       const { id } = req.params;
-      const { name, description, categoryId, price, stock, images } = req.body;
-      const updatedProduct = await updateProduct(Number(id), { name, description, categoryId, price, stock, images });
+      const { name, description, categoryId} = req.body;
+      const updatedProduct = await updateProduct(Number(id), { name, description, categoryId });
       if (!updatedProduct) {
         res.status(404).json({ message: 'Producto no encontrado' });
         return;
