@@ -1,5 +1,5 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../../config/app';
+import { DataTypes, Model } from "sequelize";
+import sequelize from "../../config/app";
 
 export class AuditLog extends Model {
   public id!: number;
@@ -36,7 +36,7 @@ AuditLog.init(
   },
   {
     sequelize,
-    tableName: 'audit_logs',
+    tableName: "audit_logs",
     timestamps: false, // Usamos createdAt manualmente
   }
 );

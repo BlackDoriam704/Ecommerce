@@ -1,12 +1,17 @@
-import bcrypt from 'bcryptjs';
-import UserRepository from '../db/repositories/user.repository';
-import { Role } from '../db/model/Role.model';
-import { logAuditEvent } from './audit.service';
+import bcrypt from "bcryptjs";
+import UserRepository from "../db/repositories/user.repository";
+import { Role } from "../db/model/Role.model";
+import { logAuditEvent } from "./audit.service";
 
 /**
  * Crear un nuevo usuario
  */
-export const createUser = async (username: string, email: string, password: string, roleId: number) => {
+export const createUser = async (
+  username: string,
+  email: string,
+  password: string,
+  roleId: number
+) => {
   console.log(`Buscando rol con ID: ${roleId}`); // Log para depuración
   const role = await Role.findByPk(roleId); // Buscar el rol por su ID
   if (!role) throw new Error(`Role with ID '${roleId}' not found`);
@@ -20,7 +25,11 @@ export const createUser = async (username: string, email: string, password: stri
   });
 
   // Registrar el evento de auditoría
-  await logAuditEvent('CREATE_USER', null, `User ${username} created with email ${email}`);
+  await logAuditEvent(
+    "CREATE_USER",
+    null,
+    `User ${username} created with email ${email}`
+  );
 
   return user;
 };
@@ -35,6 +44,9 @@ export const findUserByEmail = async (email: string) => {
 /**
  * Comparar contraseñas
  */
-export const comparePassword = async (inputPassword: string, userPassword: string) => {
+export const comparePassword = async (
+  inputPassword: string,
+  userPassword: string
+) => {
   return await bcrypt.compare(inputPassword, userPassword);
 };

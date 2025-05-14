@@ -1,0 +1,20 @@
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  background-color: #6c5ce7;
+  color: white;
+}
+
+.navbar-logo h1 {
+  cursor: pointer;
+}
+
+.navbar-links li {
+  display: inline;
+  margin: 0 1rem;
+  cursor: pointer;
+  color: white;
+}

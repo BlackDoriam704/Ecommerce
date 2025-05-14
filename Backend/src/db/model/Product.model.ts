@@ -1,12 +1,13 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../../config/app';
+import { DataTypes, Model } from "sequelize";
+import sequelize from "../../config/app";
 
 export class Product extends Model {
   public id!: number;
   public name!: string;
   public description!: string;
   public categoryId!: number;
-  public supplierId !: number;
+  public supplierId!: number;
+  public estado!: string;
 }
 
 Product.init(
@@ -35,7 +36,7 @@ Product.init(
   },
   {
     sequelize,
-    tableName: 'products',
+    tableName: "products",
   }
 );
 

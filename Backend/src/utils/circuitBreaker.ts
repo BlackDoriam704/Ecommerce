@@ -1,4 +1,4 @@
-import CircuitBreaker from 'opossum';
+import CircuitBreaker from "opossum";
 
 export const createCircuitBreaker = (
   action: (...args: unknown[]) => Promise<unknown>, // Cambiar el tipo de `action`
@@ -11,20 +11,20 @@ export const createCircuitBreaker = (
     ...options,
   });
 
-  breaker.on('open', () => {
-    console.error('Circuit breaker is OPEN. Requests will fail fast.');
+  breaker.on("open", () => {
+    console.error("Circuit breaker is OPEN. Requests will fail fast.");
   });
 
-  breaker.on('halfOpen', () => {
-    console.log('Circuit breaker is HALF-OPEN. Testing the service...');
+  breaker.on("halfOpen", () => {
+    console.log("Circuit breaker is HALF-OPEN. Testing the service...");
   });
 
-  breaker.on('close', () => {
-    console.log('Circuit breaker is CLOSED. Service is healthy.');
+  breaker.on("close", () => {
+    console.log("Circuit breaker is CLOSED. Service is healthy.");
   });
 
-  breaker.on('failure', (error) => {
-    console.error('Circuit breaker FAILURE:', error.message);
+  breaker.on("failure", (error) => {
+    console.error("Circuit breaker FAILURE:", error.message);
   });
 
   return breaker;

@@ -1,4 +1,4 @@
-import suppliers from '../db/model/suppliers.model';
+import suppliers from "../db/model/suppliers.model";
 
 export const createSupplier = async (supplierData: {
   name: string;
@@ -18,7 +18,10 @@ export const getSupplierById = async (id: number) => {
   return await suppliers.findByPk(id);
 };
 
-export const updateSupplier = async (id: number, supplierData: Partial<suppliers>) => {
+export const updateSupplier = async (
+  id: number,
+  supplierData: Partial<suppliers>
+) => {
   const supplier = await suppliers.findByPk(id);
   if (!supplier) return null;
   return await supplier.update(supplierData);

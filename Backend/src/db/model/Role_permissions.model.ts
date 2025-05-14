@@ -1,5 +1,5 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../../config/app';
+import { DataTypes, Model } from "sequelize";
+import sequelize from "../../config/app";
 
 export class RolePermission extends Model {
   public roleId!: number;
@@ -12,22 +12,22 @@ RolePermission.init(
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       references: {
-        model: 'roles',
-        key: 'id',
+        model: "roles",
+        key: "id",
       },
     },
     permissionId: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       references: {
-        model: 'permissions',
-        key: 'id',
+        model: "permissions",
+        key: "id",
       },
     },
   },
   {
     sequelize,
-    tableName: 'role_permissions',
+    tableName: "role_permissions",
     timestamps: false,
   }
 );

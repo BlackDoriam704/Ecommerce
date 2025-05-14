@@ -1,7 +1,7 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../../config/app';
-import ProductVariation from './ProductVariation.model';
-import VariationValue from './VariationValue.model';
+import { DataTypes, Model } from "sequelize";
+import sequelize from "../../config/app";
+import ProductVariation from "./ProductVariation.model";
+import VariationValue from "./VariationValue.model";
 
 export class ProductVariationValue extends Model {
   public id!: number;
@@ -21,7 +21,7 @@ ProductVariationValue.init(
       allowNull: false,
       references: {
         model: ProductVariation,
-        key: 'id',
+        key: "id",
       },
     },
     variationValueId: {
@@ -29,20 +29,20 @@ ProductVariationValue.init(
       allowNull: false,
       references: {
         model: VariationValue,
-        key: 'id',
+        key: "id",
       },
     },
   },
   {
     sequelize,
-    tableName: 'product_variation_value',
+    tableName: "product_variation_value",
+    timestamps: false,
   }
 );
 
 ProductVariationValue.belongsTo(VariationValue, {
-  as: 'variationValue',
-  foreignKey: 'variationValueId',
+  as: "variationValue",
+  foreignKey: "variationValueId",
 });
-
 
 export default ProductVariationValue;

@@ -1,0 +1,15 @@
+.footer {
+  background-color: #2d3436;
+  color: white;
+  padding: 2rem 10%;
+  text-align: center;
+}
+
+.footer-content {
+  margin-bottom: 1rem;
+}
+
+.footer-copy {
+  font-size: 0.9rem;
+  color: #b2bec3;
+}

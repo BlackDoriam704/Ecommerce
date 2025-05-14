@@ -1,8 +1,7 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../../config/app';
-import Cart from './Cart.model';
-import ProductVariation from './ProductVariation.model';
-
+import { DataTypes, Model } from "sequelize";
+import sequelize from "../../config/app";
+import Cart from "./Cart.model";
+import ProductVariation from "./ProductVariation.model";
 
 export class CartItem extends Model {
   public id!: number;
@@ -25,7 +24,7 @@ CartItem.init(
       allowNull: false,
       references: {
         model: Cart,
-        key: 'id',
+        key: "id",
       },
     },
     productId: {
@@ -33,7 +32,7 @@ CartItem.init(
       allowNull: false,
       references: {
         model: ProductVariation,
-        key: 'id',
+        key: "id",
       },
     },
     quantity: {
@@ -51,9 +50,9 @@ CartItem.init(
   },
   {
     sequelize,
-    tableName: 'cart_item',
+    tableName: "cart_item",
   }
 );
 // CartItem.belongsTo(Cart, { foreignKey: 'cartId' });
-CartItem.belongsTo(ProductVariation, { foreignKey: 'productId' });
+CartItem.belongsTo(ProductVariation, { foreignKey: "productId" });
 export default CartItem;

@@ -1,5 +1,5 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../../config/app';
+import { DataTypes, Model } from "sequelize";
+import sequelize from "../../config/app";
 
 export class VariationOption extends Model {
   public id!: number;
@@ -20,8 +20,8 @@ VariationOption.init(
   },
   {
     sequelize,
-    tableName: 'variation_option',
-    timestamps: false, 
+    tableName: "variation_option",
+    timestamps: false,
   }
 );
 

@@ -9,11 +9,14 @@ dotenv.config();
 
 const server = new Serve();
 
-sequelize.authenticate()
+sequelize
+  .authenticate()
   .then(() => {
-    console.log('Connection to the database has been established successfully.');
+    console.log(
+      "Connection to the database has been established successfully."
+    );
     return sequelize.sync({ force: false });
   })
   .catch((error) => {
-    console.error('Unable to connect to the database:', error);
+    console.error("Unable to connect to the database:", error);
   });

@@ -1,5 +1,5 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../../config/app';
+import { DataTypes, Model } from "sequelize";
+import sequelize from "../../config/app";
 
 export class DiscountCode extends Model {
   public id!: number;
@@ -29,7 +29,7 @@ DiscountCode.init(
       type: DataTypes.STRING(20),
       allowNull: false,
       validate: {
-        isIn: [['percentage', 'fixed']], // Validación para asegurar que el tipo sea 'percentage' o 'fixed'
+        isIn: [["percentage", "fixed"]], // Validación para asegurar que el tipo sea 'percentage' o 'fixed'
       },
     },
     discountValue: {
@@ -62,7 +62,7 @@ DiscountCode.init(
   },
   {
     sequelize,
-    tableName: 'discount_code',
+    tableName: "discount_code",
   }
 );
 

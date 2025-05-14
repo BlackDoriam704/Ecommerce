@@ -1,6 +1,6 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../../config/app';
-import CartItem from './CartItem.model';
+import { DataTypes, Model } from "sequelize";
+import sequelize from "../../config/app";
+import CartItem from "./CartItem.model";
 
 export class Cart extends Model {
   public id!: number;
@@ -35,7 +35,7 @@ Cart.init(
     status: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'active',
+      defaultValue: "active",
     },
     total: {
       type: DataTypes.DECIMAL(10, 2),
@@ -78,13 +78,13 @@ Cart.init(
   },
   {
     sequelize,
-    tableName: 'cart',
+    tableName: "cart",
   }
 );
 
 Cart.hasMany(CartItem, {
-  foreignKey: 'cartId',
-  as: 'items',
+  foreignKey: "cartId",
+  as: "items",
 });
 
 export default Cart;

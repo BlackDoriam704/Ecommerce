@@ -1,5 +1,5 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../../config/app';
+import { DataTypes, Model } from "sequelize";
+import sequelize from "../../config/app";
 
 class Permission extends Model {
   public id!: number;
@@ -21,7 +21,7 @@ Permission.init(
   },
   {
     sequelize,
-    tableName: 'permissions', // Nombre de la tabla en la base de datos
+    tableName: "permissions", // Nombre de la tabla en la base de datos
     timestamps: false, // Si no tienes columnas createdAt y updatedAt
   }
 );

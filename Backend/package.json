@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@azure/storage-blob": "^12.27.0",
+    "@supabase/supabase-js": "^2.49.4",
     "@types/bcrypt": "^5.0.2",
     "@types/sequelize": "^4.28.20",
     "bcrypt": "^5.1.1",

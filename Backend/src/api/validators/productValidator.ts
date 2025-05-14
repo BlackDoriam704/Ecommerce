@@ -1,14 +1,16 @@
-const { body } = require('express-validator'); 
+const { body } = require("express-validator");
 
 export const validateProduct = [
-  body('name')
+  body("name")
     .isLength({ min: 5, max: 100 })
-    .withMessage('El nombre debe tener entre 5 y 100 caracteres.')
+    .withMessage("El nombre debe tener entre 5 y 100 caracteres.")
     .matches(/^[a-zA-Z0-9\s]+$/)
-    .withMessage('El nombre solo puede contener caracteres alfanuméricos y espacios.'),
-  body('description')
+    .withMessage(
+      "El nombre solo puede contener caracteres alfanuméricos y espacios."
+    ),
+  body("description")
     .isLength({ max: 500 })
-    .withMessage('La descripción no puede exceder los 500 caracteres.'),
+    .withMessage("La descripción no puede exceder los 500 caracteres."),
   // body('category')
   //   .notEmpty()
   //   .withMessage('La categoría es obligatoria.'),

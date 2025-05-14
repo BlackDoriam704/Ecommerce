@@ -1,7 +1,12 @@
-import { DataTypes, Model, Association, HasManyGetAssociationsMixin } from 'sequelize';
-import sequelize from '../../config/app';
-import { Product } from './Product.model';
-import ProductVariationValue from './ProductVariationValue.model';
+import {
+  DataTypes,
+  Model,
+  Association,
+  HasManyGetAssociationsMixin,
+} from "sequelize";
+import sequelize from "../../config/app";
+import { Product } from "./Product.model";
+import ProductVariationValue from "./ProductVariationValue.model";
 
 export class ProductVariation extends Model {
   public id!: number;
@@ -34,7 +39,7 @@ ProductVariation.init(
       allowNull: false,
       references: {
         model: Product,
-        key: 'id',
+        key: "id",
       },
     },
     name: {
@@ -56,25 +61,25 @@ ProductVariation.init(
   },
   {
     sequelize,
-    tableName: 'product_variation',
-    timestamps: false, 
+    tableName: "product_variation",
+    timestamps: false,
   }
 );
 
 // Relación con ProductVariationValue
 ProductVariation.hasMany(ProductVariationValue, {
-  as: 'variationValues',
-  foreignKey: 'productVariationId',
+  as: "variationValues",
+  foreignKey: "productVariationId",
 });
 ProductVariationValue.belongsTo(ProductVariation, {
-  as: 'productVariation',
-  foreignKey: 'productVariationId',
+  as: "productVariation",
+  foreignKey: "productVariationId",
 });
 
 // Relación con Product
 ProductVariation.belongsTo(Product, {
-  foreignKey: 'productId',
-  as: 'product',
+  foreignKey: "productId",
+  as: "product",
 });
 
 export default ProductVariation;

@@ -1,4 +1,4 @@
-import Product from '../db/model/Product.model';
+import Product from "../db/model/Product.model";
 
 export const createProduct = async (productData: {
   name: string;
@@ -17,7 +17,10 @@ export const getProductById = async (id: number) => {
   return await Product.findByPk(id);
 };
 
-export const updateProduct = async (id: number, productData: Partial<Product>) => {
+export const updateProduct = async (
+  id: number,
+  productData: Partial<Product>
+) => {
   const product = await Product.findByPk(id);
   if (!product) return null;
   return await product.update(productData);

@@ -1,23 +1,31 @@
-import Product from '../db/model/Product.model';
-import ProductVariation from '../db/model/ProductVariation.model';
-import ProductVariationValue from '../db/model/ProductVariationValue.model';
-import VariationValue from '../db/model/VariationValue.model';
-import VariationOption from '../db/model/VariationOption.model';
-import { BlobServiceClient } from '@azure/storage-blob';
-import fs from 'fs';
-const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
+import Product from "../db/model/Product.model";
+import ProductVariation from "../db/model/ProductVariation.model";
+import ProductVariationValue from "../db/model/ProductVariationValue.model";
+import VariationValue from "../db/model/VariationValue.model";
+import VariationOption from "../db/model/VariationOption.model";
+import { BlobServiceClient } from "@azure/storage-blob";
+import fs from "fs";
+const AZURE_STORAGE_CONNECTION_STRING =
+  process.env.AZURE_STORAGE_CONNECTION_STRING;
 
 if (!AZURE_STORAGE_CONNECTION_STRING) {
-  throw new Error('La cadena de conexión de Azure Blob Storage no está configurada.');
+  throw new Error(
+    "La cadena de conexión de Azure Blob Storage no está configurada."
+  );
 }
 
-async function uploadImageToAzure(blobName: string, filePath: string): Promise<string> {
+async function uploadImageToAzure(
+  blobName: string,
+  filePath: string
+): Promise<string> {
   try {
     // Crear un cliente de servicio de blob
-    const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING!);
+    const blobServiceClient = BlobServiceClient.fromConnectionString(
+      AZURE_STORAGE_CONNECTION_STRING!
+    );
 
     // Obtener el cliente del contenedor
-    const containerName = 'imagenes-variaciones';
+    const containerName = "imagenes-variaciones";
     const containerClient = blobServiceClient.getContainerClient(containerName);
 
     // Verificar si el contenedor existe, si no, crearlo
@@ -40,8 +48,8 @@ async function uploadImageToAzure(blobName: string, filePath: string): Promise<s
     // Devolver la URL del blob
     return blockBlobClient.url;
   } catch (error) {
-    console.error('Error al subir la imagen a Azure:', error);
-    throw new Error('No se pudo subir la imagen a Azure');
+    console.error("Error al subir la imagen a Azure:", error);
+    throw new Error("No se pudo subir la imagen a Azure");
   }
 }
 
@@ -57,10 +65,13 @@ export const createProductVariation = async (productVariationData: {
 
   try {
     const blobName = `${Date.now()}-${productVariationData.imageFileName}`;
-    imageUrl = await uploadImageToAzure(blobName, productVariationData.imageFilePath);
+    imageUrl = await uploadImageToAzure(
+      blobName,
+      productVariationData.imageFilePath
+    );
   } catch (error) {
-    console.error('Error al subir la imagen a Azure:', error);
-    throw new Error('No se pudo subir la imagen a Azure');
+    console.error("Error al subir la imagen a Azure:", error);
+    throw new Error("No se pudo subir la imagen a Azure");
   }
 
   return await ProductVariation.create({
@@ -77,16 +88,16 @@ export const getProductWithVariations = async (id: number) => {
     include: [
       {
         model: ProductVariation,
-        as: 'variations',
+        as: "variations",
         include: [
           {
             model: ProductVariationValue,
-            as: 'variationValues',
+            as: "variationValues",
             include: [
               {
                 model: VariationValue,
-                as: 'variationValue',
-                include: [{ model: VariationOption, as: 'option' }],
+                as: "variationValue",
+                include: [{ model: VariationOption, as: "option" }],
               },
             ],
           },
@@ -96,42 +107,41 @@ export const getProductWithVariations = async (id: number) => {
   });
 };
 
-
 export const getProductById = async (productId: number) => {
   try {
-    console.log('Iniciando búsqueda de producto en la base de datos...');
+    console.log("Iniciando búsqueda de producto en la base de datos...");
 
     // Buscar el producto por su ID
     const product = await Product.findByPk(productId, {
-      attributes: { exclude: ['createdAt', 'updatedAt'] }, // Excluir columnas innecesarias
+      attributes: { exclude: ["createdAt", "updatedAt"] }, // Excluir columnas innecesarias
     });
 
     if (!product) {
       console.log(`No se encontró el producto con ID: ${productId}`);
-      throw new Error('Producto no encontrado');
+      throw new Error("Producto no encontrado");
     }
 
-    console.log('Producto base encontrado, buscando variaciones...');
+    console.log("Producto base encontrado, buscando variaciones...");
 
     // Buscar las variaciones del producto
     const variations = await ProductVariation.findAll({
       where: { productId: product.id },
-      attributes: { exclude: ['createdAt', 'updatedAt'] }, // Excluir columnas innecesarias
+      attributes: { exclude: ["createdAt", "updatedAt"] }, // Excluir columnas innecesarias
       include: [
         {
           model: ProductVariationValue,
-          as: 'variationValues',
-          attributes: { exclude: ['createdAt', 'updatedAt'] }, // Excluir columnas innecesarias
+          as: "variationValues",
+          attributes: { exclude: ["createdAt", "updatedAt"] }, // Excluir columnas innecesarias
           include: [
             {
               model: VariationValue,
-              as: 'variationValue',
-              attributes: { exclude: ['createdAt', 'updatedAt'] }, // Excluir columnas innecesarias
+              as: "variationValue",
+              attributes: { exclude: ["createdAt", "updatedAt"] }, // Excluir columnas innecesarias
               include: [
                 {
                   model: VariationOption,
-                  as: 'option',
-                  attributes: { exclude: ['createdAt', 'updatedAt'] }, // Excluir columnas innecesarias
+                  as: "option",
+                  attributes: { exclude: ["createdAt", "updatedAt"] }, // Excluir columnas innecesarias
                 },
               ],
             },
@@ -140,7 +150,7 @@ export const getProductById = async (productId: number) => {
       ],
     });
 
-    console.log('Variaciones encontradas:', variations.length);
+    console.log("Variaciones encontradas:", variations.length);
 
     // Construir el objeto de respuesta
     const result = {
@@ -153,9 +163,11 @@ export const getProductById = async (productId: number) => {
               (variation.variationValues || []).map(async (value) => ({
                 ...value.get({ plain: true }),
                 variationValue: {
-                  ...(await VariationValue.findByPk(value.variationValueId, {
-                    include: [{ model: VariationOption, as: 'option' }],
-                  }))?.get({ plain: true }),
+                  ...(
+                    await VariationValue.findByPk(value.variationValueId, {
+                      include: [{ model: VariationOption, as: "option" }],
+                    })
+                  )?.get({ plain: true }),
                 },
               }))
             ),
@@ -164,25 +176,27 @@ export const getProductById = async (productId: number) => {
       },
     };
 
-    console.log('Datos completos preparados para enviar');
+    console.log("Datos completos preparados para enviar");
     return result;
   } catch (error) {
-    console.error('Error en ProductService:', error);
+    console.error("Error en ProductService:", error);
     throw error;
   }
 };
 export const getAllProductsWithVariations = async () => {
   try {
-    console.log('Iniciando búsqueda de todos los productos en la base de datos...');
+    console.log(
+      "Iniciando búsqueda de todos los productos en la base de datos..."
+    );
 
     // Buscar todos los productos
     const products = await Product.findAll({
-      attributes: { exclude: ['createdAt', 'updatedAt'] }, // Excluir columnas innecesarias
+      attributes: { exclude: ["createdAt", "updatedAt"] }, // Excluir columnas innecesarias
     });
 
     if (!products || products.length === 0) {
-      console.log('No se encontraron productos en la base de datos.');
-      throw new Error('No se encontraron productos.');
+      console.log("No se encontraron productos en la base de datos.");
+      throw new Error("No se encontraron productos.");
     }
 
     console.log(`Productos encontrados: ${products.length}`);
@@ -193,22 +207,22 @@ export const getAllProductsWithVariations = async () => {
         // Buscar las variaciones del producto
         const variations = await ProductVariation.findAll({
           where: { productId: product.id },
-          attributes: { exclude: ['createdAt', 'updatedAt'] }, // Excluir columnas innecesarias
+          attributes: { exclude: ["createdAt", "updatedAt"] }, // Excluir columnas innecesarias
           include: [
             {
               model: ProductVariationValue,
-              as: 'variationValues',
-              attributes: { exclude: ['createdAt', 'updatedAt'] }, // Excluir columnas innecesarias
+              as: "variationValues",
+              attributes: { exclude: ["createdAt", "updatedAt"] }, // Excluir columnas innecesarias
               include: [
                 {
                   model: VariationValue,
-                  as: 'variationValue',
-                  attributes: { exclude: ['createdAt', 'updatedAt'] }, // Excluir columnas innecesarias
+                  as: "variationValue",
+                  attributes: { exclude: ["createdAt", "updatedAt"] }, // Excluir columnas innecesarias
                   include: [
                     {
                       model: VariationOption,
-                      as: 'option',
-                      attributes: { exclude: ['createdAt', 'updatedAt'] }, // Excluir columnas innecesarias
+                      as: "option",
+                      attributes: { exclude: ["createdAt", "updatedAt"] }, // Excluir columnas innecesarias
                     },
                   ],
                 },
@@ -217,7 +231,9 @@ export const getAllProductsWithVariations = async () => {
           ],
         });
 
-        console.log(`Variaciones encontradas para el producto ${product.id}: ${variations.length}`);
+        console.log(
+          `Variaciones encontradas para el producto ${product.id}: ${variations.length}`
+        );
 
         // Construir el objeto del producto con sus variaciones
         return {
@@ -229,9 +245,11 @@ export const getAllProductsWithVariations = async () => {
                 (variation.variationValues || []).map(async (value) => ({
                   ...value.get({ plain: true }),
                   variationValue: {
-                    ...(await VariationValue.findByPk(value.variationValueId, {
-                      include: [{ model: VariationOption, as: 'option' }],
-                    }))?.get({ plain: true }),
+                    ...(
+                      await VariationValue.findByPk(value.variationValueId, {
+                        include: [{ model: VariationOption, as: "option" }],
+                      })
+                    )?.get({ plain: true }),
                   },
                 }))
               ),
@@ -241,10 +259,10 @@ export const getAllProductsWithVariations = async () => {
       })
     );
 
-    console.log('Datos completos preparados para enviar');
+    console.log("Datos completos preparados para enviar");
     return result;
   } catch (error) {
-    console.error('Error en ProductService:', error);
+    console.error("Error en ProductService:", error);
     throw error;
   }
 };
@@ -262,7 +280,10 @@ export const getProductVariationById = async (id: number) => {
   return await ProductVariation.findByPk(id);
 };
 
-export const updateProductVariation = async (id: number, productVariationData: Partial<ProductVariation>) => {
+export const updateProductVariation = async (
+  id: number,
+  productVariationData: Partial<ProductVariation>
+) => {
   const productvariation = await ProductVariation.findByPk(id);
   if (!productvariation) return null;
   return await productvariation.update(productVariationData);

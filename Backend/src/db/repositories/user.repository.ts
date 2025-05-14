@@ -1,4 +1,4 @@
-import { User } from '../model/User.model';
+import { User } from "../model/User.model";
 
 class UserRepository {
   /**
@@ -8,7 +8,7 @@ class UserRepository {
     try {
       return await User.findOne({ where: { email } });
     } catch (error) {
-      throw new Error('Error finding user by email');
+      throw new Error("Error finding user by email");
     }
   }
 
@@ -19,7 +19,7 @@ class UserRepository {
     try {
       return await User.create(userData);
     } catch (error) {
-      throw new Error('Error creating user');
+      throw new Error("Error creating user");
     }
   }
 }
